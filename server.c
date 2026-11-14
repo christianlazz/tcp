@@ -21,7 +21,7 @@ int main(void){
     if (serversocket==-1) {perror("socket"); return 1;}
     printf("Created socket\n");
 
-    struct sockaddr_in addr = {0};
+    struct sockaddr_in addr = {0};  //s
     addr.sin_family = AF_INET;
     addr.sin_port = htons(PORT);
     addr.sin_addr.s_addr = INADDR_ANY;
