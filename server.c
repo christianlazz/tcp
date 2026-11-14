@@ -15,6 +15,7 @@
 #define MAX_CLIENTS 3
 
 int main(void){
+    //General order: socket, bind, listen, accept
     printf("started connection process...\n");
     int serversocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serversocket==-1) {perror("socket"); return 1;}
@@ -37,10 +38,12 @@ int main(void){
     printf("listening to ip address: %s on port: 9090\n", IPADD);
 
     struct pollfd fds[3];
-    fds[0].fd = serversocket;
-    fds[0].events = POLLIN;
+    fds[0].fd = serversocket; //fd to watch.
+    fds[0].events = POLLIN; //data ready to read on listening socket, event is what I want to know abt.
+    //revents is what happens, kernel sets this.
+    //prototype: int poll(struct pollfd *fds, nfds_t nfds, int timeout); *#include <poll>*
     char* wmsg = "victor say what\n";
-    int clients = 1;
+    int clients = 1; //nfds
     for (;;){
         if (clients == 2){printf("Client Maximum Reached!\n"); break;}
         if (poll(fds,clients,-1)==-1){perror("poll"); break;}
@@ -54,7 +57,7 @@ int main(void){
             clients+=1;
         }
     }
-
+    close()
 
 
 /*struct pollfd fd[MAX_CLIENTS + 1]; Will use again
