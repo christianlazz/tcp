@@ -27,7 +27,7 @@ int main(void){
     addr.sin_addr.s_addr = INADDR_ANY;
 
     int opt = 1;
-    setsockopt(serversocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    setsockopt(serversocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)); // fixes bind: already in use.
 
     int bindstatus = bind(serversocket, (struct sockaddr*)&addr, sizeof(addr));
     if (bindstatus==-1){perror("bind"); return 1;}
