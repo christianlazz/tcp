@@ -11,8 +11,8 @@
 
 #define PORT 9090
 #define BUFFER_SIZE 1024
-#define IPADD "192.168.4.26"
-#define MAX_CLIENTS 3
+#define IPADD "127.0.0.1"
+#define MAX_CLIENTS 2
 
 int main(void){
     //General order: socket, bind, listen, accept
@@ -43,9 +43,10 @@ int main(void){
     //revents is what happens, kernel sets this.
     //prototype: int poll(struct pollfd *fds, nfds_t nfds, int timeout); *#include <poll>*
     char* wmsg = "victor say what\n";
+    int clientarray [MAX_CLIENTS] = {0, 0}; //array to hold client fds
     int clients = 1; //nfds
     for (;;){
-        if (clients == 2){printf("Client Maximum Reached!\n"); break;}
+        if (clients == MAX_CLIENTS + 1){printf("Client Maximum Reached!\n"); break;}
         if (poll(fds,clients,-1)==-1){perror("poll"); break;}
         if (fds[0].revents & POLLIN){
             int client = accept(serversocket, NULL, NULL); 
@@ -57,8 +58,13 @@ int main(void){
             clients+=1;
         }
     }
-    close()
-
+ssize_t bytes;
+    char buff[BUFFER_SIZE];
+    printf("\nClient Disconnected!\n");
+    close(fds[1].fd);
+    close(serversocket);
+    return 0;
+}
 
 /*struct pollfd fd[MAX_CLIENTS + 1]; Will use again
     int fds = 1;
@@ -84,7 +90,7 @@ int main(void){
             }
         }
     }
-*/
+
     int serveraccept = accept(serversocket, NULL, NULL);
     if (serveraccept==-1){perror("accept"); return 1;}
     printf("CONNECTION ESTABLISHED!\n");
@@ -102,5 +108,7 @@ int main(void){
 
     close(serveraccept);
     close(serversocket);
+
     return 0;
 }
+*/
